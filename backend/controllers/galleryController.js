@@ -14,7 +14,7 @@ const addGallery = async (req, res) => {
     const data = new Gallery({
       title: req.body.title,
       category: req.body.category,
-      imageUrl: `http://localhost:5000/uploads/${req.file.filename}`
+      imageUrl: req.file.path // Cloudinary URL
     });
 
     await data.save();
@@ -24,8 +24,10 @@ const addGallery = async (req, res) => {
         "Gallery uploaded successfully",
       data
     });
+
   } catch (error) {
     console.log(error);
+
     res.status(500).json({
       error: error.message
     });
@@ -34,8 +36,11 @@ const addGallery = async (req, res) => {
 
 const getGallery = async (req, res) => {
   try {
-    const data = await Gallery.find();
+    const data =
+      await Gallery.find();
+
     res.json(data);
+
   } catch (error) {
     res.status(500).json({
       error: error.message
@@ -50,8 +55,10 @@ const deleteGallery = async (req, res) => {
     );
 
     res.json({
-      message: "Deleted successfully"
+      message:
+        "Deleted successfully"
     });
+
   } catch (error) {
     res.status(500).json({
       error: error.message
