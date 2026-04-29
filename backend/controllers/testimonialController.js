@@ -18,11 +18,13 @@ exports.addTestimonial = async (
     const data =
       new Testimonial({
         clientName:
-          req.body
-            .clientName,
+          req.body.clientName,
+
         review:
           req.body.review,
-        imageUrl: `http://localhost:5000/uploads/${req.file.filename}`
+
+        imageUrl:
+          req.file.path
       });
 
     await data.save();
@@ -32,10 +34,9 @@ exports.addTestimonial = async (
         "Testimonial uploaded successfully",
       data
     });
+
   } catch (error) {
-    console.log(
-      error
-    );
+    console.log(error);
 
     res.status(500).json({
       error:
@@ -55,6 +56,7 @@ exports.getTestimonial =
         await Testimonial.find();
 
       res.json(data);
+
     } catch (error) {
       res.status(500).json({
         error:
@@ -78,6 +80,7 @@ exports.deleteTestimonial =
         message:
           "Deleted Successfully"
       });
+
     } catch (error) {
       res.status(500).json({
         error:
