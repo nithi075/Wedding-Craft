@@ -2,29 +2,33 @@ const Featured = require("../models/Featured");
 
 const addFeatured = async (req, res) => {
   try {
+    // Cloudinary full URL
     const imageUrls = req.files.map(
-      (file) =>
-        `http://localhost:5000/uploads/${file.filename}`
+      (file) => file.path
     );
 
-    // check existing featured data
-    let existingFeatured = await Featured.findOne();
+    let existingFeatured =
+      await Featured.findOne();
 
     if (existingFeatured) {
-      // update existing document
-      existingFeatured.title = req.body.title;
-      existingFeatured.videoUrl = req.body.videoUrl;
-      existingFeatured.images = imageUrls;
+      existingFeatured.title =
+        req.body.title;
+
+      existingFeatured.videoUrl =
+        req.body.videoUrl;
+
+      existingFeatured.images =
+        imageUrls;
 
       await existingFeatured.save();
 
       return res.json({
-        message: "Featured updated successfully",
+        message:
+          "Featured updated successfully",
         data: existingFeatured
       });
     }
 
-    // create new document only if no data exists
     const data = new Featured({
       title: req.body.title,
       videoUrl: req.body.videoUrl,
@@ -34,7 +38,8 @@ const addFeatured = async (req, res) => {
     await data.save();
 
     res.json({
-      message: "Featured added successfully",
+      message:
+        "Featured added successfully",
       data
     });
 
@@ -47,11 +52,13 @@ const addFeatured = async (req, res) => {
 
 const getFeatured = async (req, res) => {
   try {
-    const data = await Featured.findOne();
+    const data =
+      await Featured.findOne();
 
     if (!data) {
       return res.json({
-        message: "No featured data found",
+        message:
+          "No featured data found",
         images: []
       });
     }
