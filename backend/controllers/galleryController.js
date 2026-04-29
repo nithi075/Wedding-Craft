@@ -14,14 +14,13 @@ const addGallery = async (req, res) => {
     const data = new Gallery({
       title: req.body.title,
       category: req.body.category,
-      imageUrl: req.file.path // Cloudinary URL
+      imageUrl: req.file.path
     });
 
     await data.save();
 
     res.status(201).json({
-      message:
-        "Gallery uploaded successfully",
+      message: "Gallery uploaded successfully",
       data
     });
 
@@ -36,9 +35,7 @@ const addGallery = async (req, res) => {
 
 const getGallery = async (req, res) => {
   try {
-    const data =
-      await Gallery.find();
-
+    const data = await Gallery.find();
     res.json(data);
 
   } catch (error) {
@@ -55,8 +52,7 @@ const deleteGallery = async (req, res) => {
     );
 
     res.json({
-      message:
-        "Deleted successfully"
+      message: "Deleted successfully"
     });
 
   } catch (error) {
